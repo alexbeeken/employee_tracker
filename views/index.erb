@@ -1,0 +1,69 @@
+<p>Here are all your peons:</p>
+
+<table>
+    <tr>
+      <th>
+        Name:
+      </th>
+      <th>
+        Change Division:
+      </th>
+      <th>
+        Submit
+      </th>
+      <th>
+        Current Assignment:
+      </th>
+    </tr>
+  <% @employees.each() do |employee| %>
+    <tr>
+      <td>
+        <%= employee.name() %> <a href="/employee/<%= employee.id() %>/edit">Update this employee's name</a>
+      </td>
+      <form action='/associate_division' method='post'>
+        <td>
+          <select name="id">
+            <% @divisions.each do |d| %>
+              <option value="<%= d.id %>"><%= d.name %></option>
+            <% end %>
+          </select>
+        </td>
+        <td>
+          <input type="hidden" value="<%= employee.id %>" name="emp_id">
+          <input type="submit" value="add division"></form>
+        </td>
+        <td>
+          <% if employee.division_id != nil %>
+            <%= Division.find(employee.division_id).name %>
+          <% end %>
+        </td>
+      </form>
+    </tr>
+  <% end %>
+</table>
+
+<p>Create a new peon:</p>
+
+<form action='/employees' method='post'>
+  <label for='name'>Name:</label>
+  <input id='name' name='name' type='text'>
+
+  <button type="submit">Add Employee</button>
+</form>
+
+<p> View the divisions my lord: </p>
+
+<ul>
+  <% @divisions.each() do |division| %>
+    <li><%= division.name() %> <a href="/division/<%= division.id() %>/edit">Update this division's name</a></li>
+  <% end %>
+</ul>
+
+<p>create a new division: </p>
+
+<form action='/division' method='post'>
+  <label for='name'>Name:</label>
+  <input id='name' name='name' type='text'>
+
+  <button type="submit">Add Employee</button>
+</form>
